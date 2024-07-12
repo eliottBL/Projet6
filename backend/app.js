@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const stuffRoutes = require('./routes/stuff');
+const userRoutes = require('./routes/user');
 mongoose.connect('mongodb+srv://eliott:eliott@clustermvg.yghy6ec.mongodb.net/?retryWrites=true&w=majority&appName=ClusterMVG',
     {
         useNewUrlParser: true,
@@ -19,12 +20,15 @@ app.use((req, res, next) => {
 });
 
 
+//??
 app.use(express.json());
-
+//??
 app.use((req, res) => {
     res.json({ message: 'votre requête à bient été prise en compte' });
 });
 
-app.use('api/stuff', stuffRoutes);
 
+// a confirmer
+app.use('api/books/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
 module.exports = app;
