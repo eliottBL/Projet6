@@ -11,6 +11,7 @@ mongoose.connect('mongodb+srv://eliott:eliott@clustermvg.yghy6ec.mongodb.net/?re
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
+const path = require('path');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,4 +34,5 @@ app.use((req, res) => {
 // a confirmer
 app.use('/api/books', stuffRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));
 module.exports = app;
