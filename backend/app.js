@@ -29,6 +29,6 @@ app.use((req, res) => {
 
 
 // a confirmer
-app.use('api/books/stuff', stuffRoutes);
+app.use('/api/books', stuffRoutes);
 app.use('/api/auth', userRoutes);
 module.exports = app;
