@@ -9,8 +9,8 @@ const stuffCtrl = require('../controllers/stuff');
 router.get('/', stuffCtrl.getAllStuff);
 router.get('/:id', stuffCtrl.getOneThing);
 //get bestrating
-router.post('/', auth, stuffCtrl.createThing);
-router.put('/:id', auth, stuffCtrl.modifyThing);
+router.post('/', auth, multer, stuffCtrl.createThing);
+router.put('/:id', auth, multer, stuffCtrl.modifyThing);
 router.delete('/:id', auth, stuffCtrl.deleteThing);
 
 router.post('/:id/rating', auth, stuffCtrl.rate);
