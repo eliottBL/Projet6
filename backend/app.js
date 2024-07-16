@@ -23,9 +23,11 @@ app.use((req, res, next) => {
 //??
 app.use(express.json());
 //??
+/* 
 app.use((req, res) => {
     res.json({ message: 'votre requête à bient été prise en compte' });
 });
+*/
 
 
 // a confirmer
