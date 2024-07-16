@@ -39,6 +39,7 @@ exports.getOneThing = (req, res, next) => {
     );
 };
 
+//doit suivre schéma ?
 exports.modifyThing = (req, res, next) => {
     const thing = new Thing({
         _id: req.params.id,
@@ -62,6 +63,12 @@ exports.modifyThing = (req, res, next) => {
         }
     );
 };
+
+//a verif
+exports.rateThing = (req, res, next) => {
+    Thing.insert0ne({ _id: req.params.id })
+
+}
 
 exports.deleteThing = (req, res, next) => {
     Thing.deleteOne({ _id: req.params.id }).then(
