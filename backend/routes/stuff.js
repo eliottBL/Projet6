@@ -13,6 +13,6 @@ router.post('/', auth, multer, stuffCtrl.createThing);
 router.put('/:id', auth, multer, stuffCtrl.modifyThing);
 router.delete('/:id', auth, stuffCtrl.deleteThing);
 
-router.post('/:id/rating', auth, stuffCtrl.rate);
+//router.post('/:id/rating', auth, stuffCtrl.rate);
 
 module.exports = router;
