@@ -4,7 +4,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage }).single("image");
 
 
-
+// a verif
 module.exports = (req, res, next) => {
     upload(req, res, () => {
         if (req.file !== undefined) {
