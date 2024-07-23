@@ -6,12 +6,12 @@ const multer = require('../middleware/multer-config');
 
 const stuffCtrl = require('../controllers/stuff');
 // ajouter auth, lorsque route a protéger
-router.get('/', stuffCtrl.getAllStuff);
-router.get('/:id', stuffCtrl.getOneThing);
+router.get('/', stuffCtrl.getAllBook);
+router.get('/:id', stuffCtrl.getOneBook);
 //get bestrating
-router.post('/', auth, multer, stuffCtrl.createThing);
-router.put('/:id', auth, multer, stuffCtrl.modifyThing);
-router.delete('/:id', auth, stuffCtrl.deleteThing);
+router.post('/', auth, multer, stuffCtrl.createBook);
+router.put('/:id', auth, multer, stuffCtrl.modifyBook);
+router.delete('/:id', auth, stuffCtrl.deleteBook);
 
 //router.post('/:id/rating', auth, stuffCtrl.rate);
 

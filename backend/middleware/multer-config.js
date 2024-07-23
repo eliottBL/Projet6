@@ -7,7 +7,6 @@ const upload = multer({ storage }).single("image");
 
 module.exports = (req, res, next) => {
     upload(req, res, () => {
-        console.log(req.image);
         const { buffer, originalname } = req.file;
         const timestamp = new Date().toISOString();
         const ref = `${timestamp}-${originalname}.webp`;
