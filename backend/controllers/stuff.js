@@ -27,6 +27,7 @@ exports.createBook = (req, res, next) => {
 };
 
 exports.getOneBook = (req, res, next) => {
+    console.log(req.params);
     Book.findOne({
         _id: req.params.id
     }).then(
