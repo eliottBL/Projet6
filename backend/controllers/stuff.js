@@ -44,7 +44,7 @@ exports.getOneThing = (req, res, next) => {
 //doit suivre schéma ?
 exports.modifyThing = (req, res, next) => {
     const thingObject = req.file ? {
-        ...JSON.parse(req.body.thing),
+        ...JSON.parse(req.body.book),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
 
