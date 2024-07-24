@@ -27,7 +27,6 @@ exports.createBook = (req, res, next) => {
 };
 
 exports.getOneBook = (req, res, next) => {
-    console.log(req.params);
     Book.findOne({
         _id: req.params.id
     }).then(
@@ -72,10 +71,36 @@ exports.modifyBook = (req, res, next) => {
 };
 
 //a verif
-exports.rateThing = (req, res, next) => {
-    Thing.insert0ne({ _id: req.params.id })
+exports.rateBook = (req, res, next) => {
+    Book.updateOne(
+        { _id: req.params.id },
+        {
+            $push: {
+                ratings: {
+                    userId: req.auth.userId,
+                    grade: req.body.rating
+                }
+            }
+        }
+    ).then(() => {
+        Book.findOne({ _id: req.params.id })
+            .then((book) => {
+                res.status(200).json(book);
+            })
+            .catch(error => res.status(404).json({ error }));
+    }
 
-}
+    ).catch(
+        (error) => {
+            res.status(401).json({
+                error: error
+            });
+        }
+    );
+    // next();  ???
+
+
+};
 
 exports.deleteBook = (req, res, next) => {
     Book.findOne({ _id: req.params.id })
