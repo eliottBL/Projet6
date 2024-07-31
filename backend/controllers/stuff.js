@@ -76,15 +76,16 @@ exports.rateBook = (req, res, next) => {
     Book.findOne({
         _id: req.params.id
     }).then((book) => {
-        //TODO : test si deja noté,  else :
+        if (book.ratings.some(rating => rating.userId === req.auth.userId)) {
+            return res.status(403);
+        }
         const rating = {
             userId: req.auth.userId,
             grade: req.body.rating
         }
         book.ratings.push(rating);
-        book.save();
 
-        //Moyenne
+        //Moyenne 
         let grades = [];
         for (let i = 0; i < book.ratings.length; i++) {
             grades.push(book.ratings[i].grade);
@@ -99,14 +100,6 @@ exports.rateBook = (req, res, next) => {
         res.status(200).json(book);
     })
 };
-/*
-for (let i = 0; i < book.ratings.length; i++) {
-            if (book.ratings[i].userId = req.auth.userId) {
-                res.status(200).json(book);
-                return console.log('nope')
-            } else {
-*/
-
 
 exports.deleteBook = (req, res, next) => {
     Book.findOne({ _id: req.params.id })
