@@ -142,17 +142,16 @@ exports.getAllBook = (req, res, next) => {
 };
 
 exports.topThree = (req, res, next) => {
-    Book.find().sort({ averageRating: -1 }.limit(3)
-    ).then(
-        (books) => {
-            console.log(books);
-            res.status(200).json(books);
-        }
-    ).catch(
-        (error) => {
-            res.status(400).json({
-                error: error
-            });
-        }
-    );
+    Book.find().sort({ averageRating: -1 }).limit(3)
+        .then(
+            (top3books) => {
+                res.status(200).json(top3books);
+            }
+        ).catch(
+            (error) => {
+                res.status(400).json({
+                    error: error
+                });
+            }
+        );
 };
