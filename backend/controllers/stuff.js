@@ -29,10 +29,9 @@ exports.createBook = (req, res, next) => {
 exports.getOneBook = (req, res, next) => {
     Book.findOne({
         _id: req.params.id
-    }).then(
-        (book) => {
-            res.status(200).json(book);
-        }
+    }).then((book) => {
+        res.status(200).json(book);
+    }
     ).catch(
         (error) => {
             res.status(404).json({
@@ -42,7 +41,9 @@ exports.getOneBook = (req, res, next) => {
     );
 };
 
-//doit suivre schéma ?
+
+
+
 exports.modifyBook = (req, res, next) => {
     const bookObject = req.file ? {
         ...JSON.parse(req.body.book),
@@ -70,37 +71,42 @@ exports.modifyBook = (req, res, next) => {
         );
 };
 
-//a verif
+
 exports.rateBook = (req, res, next) => {
-    Book.updateOne(
-        { _id: req.params.id },
-        {
-            $push: {
-                ratings: {
-                    userId: req.auth.userId,
-                    grade: req.body.rating
-                }
-            }
+    Book.findOne({
+        _id: req.params.id
+    }).then((book) => {
+        //TODO : test si deja noté,  else :
+        const rating = {
+            userId: req.auth.userId,
+            grade: req.body.rating
         }
-    ).then(() => {
-        Book.findOne({ _id: req.params.id })
-            .then((book) => {
-                res.status(200).json(book);
-            })
-            .catch(error => res.status(404).json({ error }));
-    }
+        book.ratings.push(rating);
+        book.save();
 
-    ).catch(
-        (error) => {
-            res.status(401).json({
-                error: error
-            });
+        //Moyenne
+        let grades = [];
+        for (let i = 0; i < book.ratings.length; i++) {
+            grades.push(book.ratings[i].grade);
         }
-    );
-    // next();  ???
+        const totalGrades = grades.reduce(
+            (accumulator, currentValue) => accumulator + currentValue, 0,
+        );
+        const noteMoyenne = totalGrades / book.ratings.length;
+        book.averageRating = noteMoyenne;
+        book.save();
 
-
+        res.status(200).json(book);
+    })
 };
+/*
+for (let i = 0; i < book.ratings.length; i++) {
+            if (book.ratings[i].userId = req.auth.userId) {
+                res.status(200).json(book);
+                return console.log('nope')
+            } else {
+*/
+
 
 exports.deleteBook = (req, res, next) => {
     Book.findOne({ _id: req.params.id })
@@ -124,6 +130,22 @@ exports.deleteBook = (req, res, next) => {
 exports.getAllBook = (req, res, next) => {
     Book.find().then(
         (books) => {
+            res.status(200).json(books);
+        }
+    ).catch(
+        (error) => {
+            res.status(400).json({
+                error: error
+            });
+        }
+    );
+};
+
+exports.topThree = (req, res, next) => {
+    Book.find().sort({ averageRating: -1 }.limit(3)
+    ).then(
+        (books) => {
+            console.log(books);
             res.status(200).json(books);
         }
     ).catch(
