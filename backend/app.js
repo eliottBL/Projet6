@@ -2,7 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user');
-mongoose.connect('mongodb+srv://eliott:eliott@clustermvg.yghy6ec.mongodb.net/?retryWrites=true&w=majority&appName=ClusterMVG',
+const dotenv = require("dotenv");
+dotenv.config();
+
+mongoose.connect(process.env.MNGDB_LINK,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
