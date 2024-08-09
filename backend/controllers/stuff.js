@@ -109,8 +109,8 @@ exports.rateBook = (req, res, next) => {
             (accumulator, currentValue) => accumulator + currentValue, 0,
         );
         const noteMoyenne = totalGrades / book.ratings.length;
-        book.averageRating = //Math.round(noteMoyenne); ! ! ! !! ! ! ! !!
-            book.save();
+        book.averageRating = Math.round(noteMoyenne);
+        book.save();
 
         res.status(200).json(book);
     })
