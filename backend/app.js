@@ -20,18 +20,8 @@ app.use((req, res, next) => {
     next();
 });
 
-
-//??
 app.use(express.json());
-//??
-/* 
-app.use((req, res) => {
-    res.json({ message: 'votre requête à bient été prise en compte' });
-});
-*/
 
-
-// a confirmer
 app.use('/api/books', stuffRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));

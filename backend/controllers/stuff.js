@@ -42,14 +42,29 @@ exports.getOneBook = (req, res, next) => {
 };
 
 
-
-
-exports.modifyBook = (req, res, next) => {
-    const bookObject = req.file ? {
+/*const bookObject = req.file ? {
         ...JSON.parse(req.body.book),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };
+    } : { ...req.body };    */
 
+exports.modifyBook = (req, res, next) => {
+    let bookObject = {}
+    if (req.file) {
+        Book.findOne({ _id: req.params.id })
+            .then((book) => {
+                const filename = book.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${filename}`, () => {
+                    bookObject = {
+                        ...JSON.parse(req.body.book),
+                        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                    }
+                });
+            });
+    } else {
+        bookObject = {
+            ...req.body
+        }
+    };
 
     delete bookObject._userId;
     Book.findOne({ _id: req.params.id })
@@ -94,8 +109,8 @@ exports.rateBook = (req, res, next) => {
             (accumulator, currentValue) => accumulator + currentValue, 0,
         );
         const noteMoyenne = totalGrades / book.ratings.length;
-        book.averageRating = noteMoyenne;
-        book.save();
+        book.averageRating = //Math.round(noteMoyenne); ! ! ! !! ! ! ! !!
+            book.save();
 
         res.status(200).json(book);
     })
